@@ -4,6 +4,7 @@ k3s:
       file: ./secrets.yaml
   terraform:
     - proxmox: git@github.com:simcax/terraform-proxmox-vm.git
+      state_file: ./terraform.tfstate
       pm_password: _secret:hello-world:proxmox_password
       pm_user: hello-world@pam
       target_node: proxmox.hello-world.lan
