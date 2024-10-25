@@ -3,7 +3,7 @@ k3s:
     - name: hello-world
       file: ./secrets.yaml
   terraform:
-    - proxmox: https://git.hello-world.lan/terraform/proxmox_vms.git
+    - proxmox: git@github.com:simcax/terraform-proxmox-vm.git
       pm_password: _secret:hello-world:proxmox_password
       pm_user: hello-world@pam
       target_node: proxmox.hello-world.lan
