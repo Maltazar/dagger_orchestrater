@@ -1,0 +1,84 @@
+k3s:
+  secrets:
+    - name: hello-world
+      file: ./secrets.yaml
+  terraform:
+    - proxmox: https://git.hello-world.lan/terraform/proxmox_vms.git
+      pm_password: _secret:hello-world:proxmox_password
+      pm_user: hello-world@pam
+      target_node: proxmox.hello-world.lan
+      clone: "VM 9000"
+      nameserver: 10.1.1.250
+      ssh_key: _secret:hello-world:ssh_key
+      disk_storage: local-lvm
+      cloud_init_storage: local-lvm
+      vars:
+        - group: master
+          name: master-0{}
+          count: 3
+          cores: 2
+          memory: 2048
+          disk: 20
+          network:
+            - vlan: 140
+              ip-range: 172.16.40.11-13
+        - group: worker
+          name: worker-0{}
+          count: 3
+          cores: 2
+          memory: 2048
+          disk: 20
+          network:
+            - vlan: 140
+              ip-range: 172.16.40.21-23
+  ansible:
+    - k3s-ansible: https://github.com/techno-tim/k3s-ansible.git
+      play: site.yml
+      inventory:
+        hosts:
+          - group: master
+          - group: worker
+        vars:
+          - k3s_version: v1.30.2+k3s2
+          - ansible_user: hello-world
+          - system_timezone: Europe/Copenhagen
+          - k3s_token: _secret:hello-world:k3s_token
+          - flannel_iface: eth0
+            remove: true
+          - cilium_iface: "eth0"
+          - cluster_cidr: 10.52.0.0/16
+          - apiserver_endpoint: 172.16.40.100
+          - metal_lb_ip_range: 172.16.40.150-172.16.40.200
+          - custom_registries: true
+          - custom_registries_yaml: |
+              mirrors:
+                registry.git.hello-world.lan:
+                  endpoint:
+                    - "https://registry.git.hello-world.lan"
+              configs:
+                "registry.git.hello-world.lan":
+                  tls:
+                    insecure_skip_verify: true
+    - nfs-client: https://git.hello-world.lan/nfs-client.git
+      play: playbook.yml
+      inventory:
+        hosts:
+          - group: master
+          - group: worker
+  helm:
+    - external-secrets:
+        chart: https://charts.external-secrets.io
+        values:
+          namespace: external-secrets
+          installCRDs: true
+          vault_secret: _secret:hello-world:vault_secret
+          ssh_secret: _secret:hello-world:ssh_secret
+    - argocd:
+        chart: https://argoproj.github.io/argo-helm
+        values:
+          namespace: argocd
+  kubectl:
+    - apply: https://git.hello-world.lan/kubectl-apply.git
+      files:
+        - external-secrets.yaml
+        - argocd-seed.yaml
