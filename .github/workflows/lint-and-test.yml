@@ -27,6 +27,9 @@ jobs:
       uses: astral-sh/setup-uv@v3
     - name: Set up Python ${{ matrix.python-version }}
       run: uv python install ${{ matrix.python-version }}
+    - name: Sync pyproject.toml file
+      run: uv sync 
+      working-directory: dagger
     - name: Install dependencies
       run: uv sync --all-extras --dev --cache-dir ~/.cache/uv --locked
       working-directory: dagger
