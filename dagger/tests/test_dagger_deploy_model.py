@@ -9,6 +9,8 @@ import pytest
 from models.deploy import Ansible, Helm, K3s, Kubectl, Secret, Terraform
 from pydantic import ValidationError
 
+from .conftest import locate_dagger_deploy_yaml
+
 
 def test_terraform_model(deploy_model):
     """Test the DeployModel class."""
@@ -77,3 +79,9 @@ def test_k3s_model(deploy_model):
         K3s(**k3s)
     except ValidationError as e:
         pytest.fail(f"K3s model not fullfilled. {e.errors()}")
+
+
+def test_locate_dagger_deploy_yaml_test_file():
+    """Test we are able to find a file"""
+    file = locate_dagger_deploy_yaml()
+    assert file.exists()
