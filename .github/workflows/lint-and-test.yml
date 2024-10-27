@@ -27,8 +27,10 @@ jobs:
       uses: astral-sh/setup-uv@v3
     - name: Set up Python ${{ matrix.python-version }}
       run: uv python install ${{ matrix.python-version }}
-    - name: Sync pyproject.toml file
-      run: uv sync 
+    - name: Install dagger
+      run: curl -fsSL https://dl.dagger.io/dagger/install.sh | BIN_DIR=$HOME/.local/bin sh
+    - name: Initialize dagger
+      run: dagger init --sdk=python --source=./dagger
       working-directory: dagger
     - name: Install dependencies
       run: uv sync --all-extras --dev --cache-dir ~/.cache/uv --locked
