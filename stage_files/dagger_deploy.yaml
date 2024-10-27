@@ -1,19 +1,19 @@
 orchestrate:
   secrets:
     - name: hello-world
-      file: ./secrets.yaml
+      location: ./secrets.yaml
   terraform:
     - name: proxmox
       location: git@github.com:simcax/terraform-proxmox-vm.git
-      pm_password: _secret:hello-world:proxmox_password
-      pm_user: hello-world@pam
-      target_node: proxmox.hello-world.lan
-      clone: "VM 9000"
-      nameserver: 10.1.1.250
-      ssh_key: _secret:hello-world:ssh_key
-      disk_storage: local-lvm
-      cloud_init_storage: local-lvm
       vars:
+        - pm_password: _secret:hello-world:proxmox_password
+        - pm_user: hello-world@pam
+        - target_node: proxmox.hello-world.lan
+        - clone: "VM 9000"
+        - nameserver: 10.1.1.250
+        - ssh_key: _secret:hello-world:ssh_key
+        - disk_storage: local-lvm
+        - cloud_init_storage: local-lvm
         - group: master
           name: master-0{}
           count: 3

@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 
 class Secret(BaseModel):
     name: str
-    file: str
+    location: str
 
 
 class Network(BaseModel):
@@ -15,28 +15,10 @@ class Network(BaseModel):
     ip_range: str = Field(alias="ip-range")
 
 
-class TerraformVars(BaseModel):
-    group: str
-    name: str
-    count: int
-    cores: int
-    memory: int
-    disk: int
-    network: List[Network]
-
-
 class Terraform(BaseModel):
     name: str
     location: str
-    pm_password: str
-    pm_user: str
-    target_node: str
-    clone: str
-    nameserver: str
-    ssh_key: str
-    disk_storage: str
-    cloud_init_storage: str
-    vars: List[TerraformVars]
+    vars: List[dict]
 
 
 class Hosts(BaseModel):
