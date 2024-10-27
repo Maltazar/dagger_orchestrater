@@ -66,7 +66,7 @@ class Kubectl(BaseModel):
     files: List[str]
 
 
-class K3s(BaseModel):
+class Orchestrate(BaseModel):
     secrets: List[Secret]
     terraform: List[Terraform]
     ansible: List[Ansible]
@@ -75,4 +75,4 @@ class K3s(BaseModel):
 
 
 class DeployModel(BaseModel):
-    k3s: K3s
+    orchestrate: Orchestrate

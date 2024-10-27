@@ -6,7 +6,7 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../src")))
 
 import pytest
-from models.deploy import Ansible, Helm, K3s, Kubectl, Secret, Terraform
+from models.deploy import Ansible, Helm, Kubectl, Orchestrate, Secret, Terraform
 from pydantic import ValidationError
 
 from .conftest import locate_dagger_deploy_yaml
@@ -15,7 +15,7 @@ from .conftest import locate_dagger_deploy_yaml
 def test_terraform_model(deploy_model):
     """Test the DeployModel class."""
 
-    terraform = deploy_model.get("k3s").get("terraform")
+    terraform = deploy_model.get("orchestrate").get("terraform")
     try:
         Terraform(**terraform[0])
     except ValidationError as e:
@@ -24,7 +24,7 @@ def test_terraform_model(deploy_model):
 
 def test_secrets_model(deploy_model):
     """Tests the secrets pydantic model"""
-    secrets = deploy_model.get("k3s").get("secrets")
+    secrets = deploy_model.get("orchestrate").get("secrets")
 
     try:
         Secret(**secrets[0])
@@ -32,9 +32,9 @@ def test_secrets_model(deploy_model):
         pytest.fail(f"Secret model not fullfilled. {e.errors()}")
 
 
-def test_k3s_ansible_model(deploy_model):
+def test_ansible_model(deploy_model):
     """Tests the ansible pydantic model"""
-    ansible = deploy_model.get("k3s").get("ansible")
+    ansible = deploy_model.get("orchestrate").get("ansible")
 
     try:
         Ansible(**ansible[0])
@@ -44,7 +44,7 @@ def test_k3s_ansible_model(deploy_model):
 
 def test_ansible_model_optional_vars_section(deploy_model):
     """Tests the ansible model without a vars section"""
-    ansible = deploy_model.get("k3s").get("ansible")
+    ansible = deploy_model.get("orchestrate").get("ansible")
 
     try:
         Ansible(**ansible[1])
@@ -54,7 +54,7 @@ def test_ansible_model_optional_vars_section(deploy_model):
 
 def test_helm_model(deploy_model):
     """Test the helm model"""
-    helm = deploy_model.get("k3s").get("helm")
+    helm = deploy_model.get("orchestrate").get("helm")
 
     try:
         Helm(**helm[0])
@@ -64,7 +64,7 @@ def test_helm_model(deploy_model):
 
 def test_kubectl_model(deploy_model):
     """Tests the kubectl model"""
-    kubectl = deploy_model.get("k3s").get("kubectl")
+    kubectl = deploy_model.get("orchestrate").get("kubectl")
 
     try:
         Kubectl(**kubectl[0])
@@ -72,13 +72,13 @@ def test_kubectl_model(deploy_model):
         pytest.fail(f"Kubectl model not fullfilled. {e.errors()}")
 
 
-def test_k3s_model(deploy_model):
-    """Tests the k3s model"""
-    k3s = deploy_model.get("k3s")
+def test_orchestrate_model(deploy_model):
+    """Tests the orchestrate model"""
+    orchestrate = deploy_model.get("orchestrate")
     try:
-        K3s(**k3s)
+        Orchestrate(**orchestrate)
     except ValidationError as e:
-        pytest.fail(f"K3s model not fullfilled. {e.errors()}")
+        pytest.fail(f"Orchestrate model not fullfilled. {e.errors()}")
 
 
 def test_locate_dagger_deploy_yaml_test_file():

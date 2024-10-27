@@ -1,4 +1,4 @@
-k3s:
+orchestrate:
   secrets:
     - name: hello-world
       file: ./secrets.yaml
