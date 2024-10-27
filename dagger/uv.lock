@@ -163,7 +163,7 @@ wheels = [
 
 [[package]]
 name = "dagger-io"
-version = "0.0.0"
+version = "0.13.6"
 source = { editable = "sdk" }
 dependencies = [
     { name = "anyio" },
