@@ -40,7 +40,9 @@ class Ansible(BaseModel):
 class Helm(BaseModel):
     name: str
     chart: str
-    values: List[dict]
+    values: Optional[List[dict]] = None
+    values_set: Optional[List[dict]] = None
+    values_git: Optional[List[str]] = None
 
 
 class Kubectl(BaseModel):

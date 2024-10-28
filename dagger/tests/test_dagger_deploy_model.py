@@ -52,12 +52,22 @@ def test_ansible_model_optional_vars_section(deploy_model):
         pytest.fail(f"Ansible model not fullfilled. {e.errors()}")
 
 
-def test_helm_model(deploy_model):
+def test_helm_model_git_and_set(deploy_model):
     """Test the helm model"""
     helm = deploy_model.get("orchestrate").get("helm")
 
     try:
         Helm(**helm[0])
+    except ValidationError as e:
+        pytest.fail(f"Helm model not fullfilled. {e.errors()}")
+
+
+def test_helm_model_only_values(deploy_model):
+    """Test the helm model"""
+    helm = deploy_model.get("orchestrate").get("helm")
+
+    try:
+        Helm(**helm[1])
     except ValidationError as e:
         pytest.fail(f"Helm model not fullfilled. {e.errors()}")
 

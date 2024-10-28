@@ -71,7 +71,10 @@ orchestrate:
   helm:
     - name: external-secrets
       chart: https://charts.external-secrets.io
-      values:
+      values_git:
+        - values.yaml
+        - dev-values.yaml
+      values_set:
         - namespace: external-secrets
         - installCRDs: true
         - vault_secret: _secret:hello-world:vault_secret
