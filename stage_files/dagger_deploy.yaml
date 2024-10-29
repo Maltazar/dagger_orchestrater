@@ -69,17 +69,17 @@ orchestrate:
           - group: master
           - group: worker
   helm:
-    - name: external-secrets
+    - releaseName: external-secrets
       chart: https://charts.external-secrets.io
       values_git:
         - values.yaml
-        - dev-values.yaml
+        - https://github.com/someusers/repository/dev-values.yaml
       values_set:
         - namespace: external-secrets
         - installCRDs: true
         - vault_secret: _secret:hello-world:vault_secret
         - ssh_secret: _secret:hello-world:ssh_secret
-    - name: argocd
+    - releaseName: argocd
       chart: https://argoproj.github.io/argo-helm
       values:
         - namespace: argocd

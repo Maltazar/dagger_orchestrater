@@ -38,7 +38,7 @@ class Ansible(BaseModel):
 
 
 class Helm(BaseModel):
-    name: str
+    releaseName: str
     chart: str
     values: Optional[List[dict]] = None
     values_set: Optional[List[dict]] = None
