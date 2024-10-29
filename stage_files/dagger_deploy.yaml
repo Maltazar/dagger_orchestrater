@@ -1,4 +1,4 @@
-orchestrate:
+deploy_play_name:
   secrets:
     - name: hello-world
       location: ./secrets.yaml

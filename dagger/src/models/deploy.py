@@ -1,8 +1,7 @@
 """Class for the deploy_model module"""
 
-from typing import List, Optional
-
-from pydantic import BaseModel, Field
+from typing import List, Optional, Dict, Any
+from pydantic import BaseModel, Field, RootModel
 
 
 class Secret(BaseModel):
@@ -50,13 +49,5 @@ class Kubectl(BaseModel):
     files: List[str]
 
 
-class Orchestrate(BaseModel):
-    secrets: List[Secret]
-    terraform: List[Terraform]
-    ansible: List[Ansible]
-    helm: List[Helm]
-    kubectl: List[Kubectl]
-
-
-class DeployModel(BaseModel):
-    orchestrate: Orchestrate
+class DeployModel(RootModel):
+    root: Dict[str, Any]  # This allows for a dynamic first-level key
