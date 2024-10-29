@@ -39,8 +39,8 @@ class Ansible(BaseModel):
 class Helm(BaseModel):
     name: str
     chart: str
+    set: Optional[List[dict]] = None
     values: Optional[List[dict]] = None
-    values_set: Optional[List[dict]] = None
     values_git: Optional[List[str]] = None
 
 
@@ -49,5 +49,13 @@ class Kubectl(BaseModel):
     files: List[str]
 
 
-class DeployModel(RootModel):
-    root: Dict[str, Any]  # This allows for a dynamic first-level key
+class Modules(BaseModel):
+    secrets: Optional[List[Secret]]
+    terraform: Optional[List[Terraform]]
+    ansible: Optional[List[Ansible]]
+    helm: Optional[List[Helm]]
+    kubectl: Optional[List[Kubectl]]
+
+
+class Orchestrate(RootModel):
+    root: Dict[str, Modules]  # This allows for a dynamic first-level key name

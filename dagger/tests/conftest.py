@@ -2,7 +2,7 @@ import pathlib
 
 import pytest
 import yaml
-from models.deploy import DeployModel
+from models.orchestrate import Orchestrate
 
 
 def locate_dagger_deploy_yaml() -> pathlib.Path:
@@ -20,4 +20,4 @@ def deploy_model():
 
     with open(dagger_deploy_file, "r") as yaml_file:
         deploy_model = yaml.safe_load(yaml_file)
-    return DeployModel(root=deploy_model)
+    return Orchestrate(root=deploy_model)

@@ -74,7 +74,7 @@ deploy_play_name:
       values_git:
         - values.yaml
         - dev-values.yaml
-      values_set:
+      set:
         - namespace: external-secrets
         - installCRDs: true
         - vault_secret: _secret:hello-world:vault_secret
