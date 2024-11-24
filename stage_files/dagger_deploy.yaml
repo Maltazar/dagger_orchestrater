@@ -1,19 +1,20 @@
-k3s:
+deploy_play_name:
   secrets:
     - name: hello-world
-      file: ./secrets.yaml
+      location: ./secrets.yaml
   terraform:
-    - proxmox: git@github.com:simcax/terraform-proxmox-vm.git
+    - name: proxmox
       state_file: ./terraform.tfstate
-      pm_password: _secret:hello-world:proxmox_password
-      pm_user: hello-world@pam
-      target_node: proxmox.hello-world.lan
-      clone: "VM 9000"
-      nameserver: 10.1.1.250
-      ssh_key: _secret:hello-world:ssh_key
-      disk_storage: local-lvm
-      cloud_init_storage: local-lvm
+      location: git@github.com:simcax/terraform-proxmox-vm.git
       vars:
+        - pm_password: _secret:hello-world:proxmox_password
+        - pm_user: hello-world@pam
+        - target_node: proxmox.hello-world.lan
+        - clone: "VM 9000"
+        - nameserver: 10.1.1.250
+        - ssh_key: _secret:hello-world:ssh_key
+        - disk_storage: local-lvm
+        - cloud_init_storage: local-lvm
         - group: master
           name: master-0{}
           count: 3
@@ -33,7 +34,8 @@ k3s:
             - vlan: 140
               ip-range: 172.16.40.21-23
   ansible:
-    - k3s-ansible: https://github.com/techno-tim/k3s-ansible.git
+    - name: k3s-ansible
+      location: https://github.com/techno-tim/k3s-ansible.git
       play: site.yml
       inventory:
         hosts:
@@ -60,24 +62,28 @@ k3s:
                 "registry.git.hello-world.lan":
                   tls:
                     insecure_skip_verify: true
-    - nfs-client: https://git.hello-world.lan/nfs-client.git
+    - name: nfs-client
+      location: https://git.hello-world.lan/nfs-client.git
       play: playbook.yml
       inventory:
         hosts:
           - group: master
           - group: worker
   helm:
-    - external-secrets:
-        chart: https://charts.external-secrets.io
-        values:
-          namespace: external-secrets
-          installCRDs: true
-          vault_secret: _secret:hello-world:vault_secret
-          ssh_secret: _secret:hello-world:ssh_secret
-    - argocd:
-        chart: https://argoproj.github.io/argo-helm
-        values:
-          namespace: argocd
+    - name: external-secrets
+      chart: https://charts.external-secrets.io
+      values_git:
+        - values.yaml
+        - dev-values.yaml
+      set:
+        - namespace: external-secrets
+        - installCRDs: true
+        - vault_secret: _secret:hello-world:vault_secret
+        - ssh_secret: _secret:hello-world:ssh_secret
+    - name: argocd
+      chart: https://argoproj.github.io/argo-helm
+      values:
+        - namespace: argocd
   kubectl:
     - apply: https://git.hello-world.lan/kubectl-apply.git
       files:
