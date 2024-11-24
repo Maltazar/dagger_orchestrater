@@ -11,7 +11,7 @@ def test_terraform_model(deploy_model):
         if modules.terraform:
             for terraform in modules.terraform:
                 try:
-                    Terraform(**terraform.dict())
+                    Terraform(**terraform.model_dump())
                 except ValidationError as e:
                     pytest.fail(f"Terraform model not fulfilled. {e.errors()}")
 
@@ -22,7 +22,7 @@ def test_secrets_model(deploy_model):
         if modules.secrets:
             for secret in modules.secrets:
                 try:
-                    Secret(**secret.dict())
+                    Secret(**secret.model_dump())
                 except ValidationError as e:
                     pytest.fail(f"Secret model not fulfilled. {e.errors()}")
 
@@ -33,7 +33,7 @@ def test_ansible_model(deploy_model):
         if modules.ansible:
             for ansible in modules.ansible:
                 try:
-                    Ansible(**ansible.dict())
+                    Ansible(**ansible.model_dump())
                 except ValidationError as e:
                     pytest.fail(f"Ansible model not fulfilled. {e.errors()}")
 
@@ -43,7 +43,7 @@ def test_ansible_model_optional_vars_section(deploy_model):
     for _, modules in deploy_model.root.items():
         if modules.ansible and len(modules.ansible) > 1:
             try:
-                Ansible(**modules.ansible[1].dict())
+                Ansible(**modules.ansible[1].model_dump())
             except ValidationError as e:
                 pytest.fail(f"Ansible model not fulfilled. {e.errors()}")
 
@@ -54,7 +54,7 @@ def test_helm_model_git_and_set(deploy_model):
         if modules.helm:
             for helm in modules.helm:
                 try:
-                    Helm(**helm.dict())
+                    Helm(**helm.model_dump())
                 except ValidationError as e:
                     pytest.fail(f"Helm model not fulfilled. {e.errors()}")
 
@@ -64,7 +64,7 @@ def test_helm_model_only_values(deploy_model):
     for _, modules in deploy_model.root.items():
         if modules.helm and len(modules.helm) > 1:
             try:
-                Helm(**modules.helm[1].dict())
+                Helm(**modules.helm[1].model_dump())
             except ValidationError as e:
                 pytest.fail(f"Helm model not fulfilled. {e.errors()}")
 
@@ -75,7 +75,7 @@ def test_kubectl_model(deploy_model):
         if modules.kubectl:
             for kubectl in modules.kubectl:
                 try:
-                    Kubectl(**kubectl.dict())
+                    Kubectl(**kubectl.model_dump())
                 except ValidationError as e:
                     pytest.fail(f"Kubectl model not fulfilled. {e.errors()}")
 

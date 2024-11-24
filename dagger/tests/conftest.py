@@ -20,4 +20,4 @@ def deploy_model():
 
     with open(dagger_deploy_file, "r") as yaml_file:
         deploy_model = yaml.safe_load(yaml_file)
-    return Orchestrate(root=deploy_model)
+    yield Orchestrate(root=deploy_model)
