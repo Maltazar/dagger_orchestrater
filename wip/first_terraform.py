@@ -7,7 +7,7 @@ from helpers.helper import prepare_key_value_args
 
 
 @function
-def terraform_plan(self, source: dagger.Directory, url: str, tf_vars: Terraform) -> dagger.Container:
+def first_terraform_plan(self, source: dagger.Directory, url: str, tf_vars: Terraform) -> dagger.Container:
     """Run Terraform plan using the provided directory and variables"""
     terraform_dir = self.clone_repository(url, "/git_dir")
     
@@ -25,7 +25,7 @@ def terraform_plan(self, source: dagger.Directory, url: str, tf_vars: Terraform)
     )
 
 @function
-def terraform_apply(self, source: dagger.Directory, url: str, tf_vars: Terraform) -> dagger.Container:
+def first_terraform_apply(self, source: dagger.Directory, url: str, tf_vars: Terraform) -> dagger.Container:
     """Run Terraform apply using the provided directory and variables"""
     terraform_dir = self.clone_repository(url, "/git_dir")
     

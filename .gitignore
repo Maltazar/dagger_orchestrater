@@ -162,3 +162,5 @@ cython_debug/
 #.idea/
 **secret**
 tmp/
+!dagger/src/secrets
+!dagger/src/models/secret.py

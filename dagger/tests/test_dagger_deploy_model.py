@@ -1,5 +1,5 @@
 import pytest
-from models.orchestrate import Ansible, Helm, Kubectl, Secret, Terraform, Orchestrate
+from models.model import Ansible, Helm, Kubectl, Secret, Terraform, Orchestrate
 from pydantic import ValidationError
 
 from .conftest import locate_dagger_deploy_yaml

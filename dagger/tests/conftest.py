@@ -2,7 +2,7 @@ import pathlib
 
 import pytest
 import yaml
-from models.orchestrate import Orchestrate
+from models.model import Orchestrate
 
 
 def locate_dagger_deploy_yaml() -> pathlib.Path:
