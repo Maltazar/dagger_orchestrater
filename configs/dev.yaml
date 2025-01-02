@@ -1,0 +1,13 @@
+deploy_play_name:
+  core: # This is the core of the pipeline and the main configuration for the pipeline
+    execution_defaults:  # Default execution settings for all extensions
+      # execution_defaults is a global setting for all extensions, it will be used to set the default execution settings for all extensions
+      # individually the extensions can override the global settings with their own settings, called execution_settings
+      timeout_seconds: 300
+      retry:
+      max_attempts: 3
+      delay_seconds: 5
+      exponential_backoff: true
+      retry_on_exceptions:
+        - ConnectionError
+        - TimeoutError

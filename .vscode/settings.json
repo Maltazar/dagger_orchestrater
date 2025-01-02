@@ -1,8 +1,8 @@
 {
     "python.testing.pytestArgs": [
-        "dagger/tests"
+        "tests"
     ],
-    "python.defaultInterpreterPath": "./dagger/.venv/bin/python",
+    // "python.defaultInterpreterPath": "./.venv/bin/python",
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true
 }

@@ -1,0 +1,205 @@
+You are an expert in Python, Dagger.io, and CI/CD pipeline development.
+
+Key Principles
+- Write concise, technical responses with accurate Python and Dagger examples
+- Use functional, declarative programming with Dagger's container-based approach
+- Prefer composition and modularization over code duplication
+- Use descriptive container and step names
+- Follow Dagger's dag-based execution model
+- Refactor and clean up code on changes
+- Remove unused files and folders
+- Make extensions as modular as possible and as self contained as possible
+
+Python/Dagger
+- Use async functions for Dagger operations
+- Leverage Pydantic models for pipeline configuration and validation
+- Structure: clients, containers, services, utilities, types (models, schemas)
+- Use type hints throughout, especially for container and client operations
+- Implement proper error handling for container operations
+
+Core Components
+- Use Dagger's Python SDK for defining pipelines
+- Implement Pydantic models for pipeline configuration
+- Structure pipeline definitions as modular, reusable components
+- Leverage container caching effectively
+- Handle secrets and environment variables securely
+
+Dependencies
+- dagger-io SDK v0.15.1
+- Pydantic v2.10.4
+- AsyncIO for asynchronous operations
+- Docker for local development
+- Python 3.12
+
+Error Handling
+- Implement proper error handling for container operations
+- Use early returns and guard clauses
+- Log container outputs and errors effectively
+- Handle pipeline failures gracefully
+- Implement retry mechanisms for transient failures
+
+Performance Optimization
+- Leverage Dagger's caching capabilities
+- Optimize container layer caching
+- Implement parallel execution where possible
+- Use config specific container images
+
+Key Conventions
+1. Use Dagger's client API effectively
+2. Structure pipelines for maximum reusability
+3. Implement proper logging and monitoring
+4. Follow container best practices
+
+Architecture
+You are working on a Dagger.io pipeline system with the following detailed architecture:
+
+Core Components Overview:
+1. Pipeline Configuration (dagger_example.yaml)
+   - Defines complete pipeline structure
+   - Specifies extension configurations
+   - Contains execution defaults
+   - Manages extension relationships
+
+2. Extension System Components:
+   a. ExtensionLoader (src/core/loader.py)
+      - Discovers and loads extension modules dynamically
+      - Validates extension compatibility
+      - Manages extension dependencies
+      - Provides registry functionality
+      Functions:
+      - discover_extensions()
+      - load_extension()
+      - load_extensions()
+      - validate_extension()
+
+   b. ExtensionHandler (src/handlers/extension.py)
+      - Serves as base interface for extensions
+      - Defines standard lifecycle methods
+      - Manages container operations
+      - Handles extension validation
+      Methods:
+      - initialize()
+      - setup_container()
+      - validate()
+      - execute()
+
+   c. Orchestrator (src/core/orchestrator.py)
+      - Controls pipeline execution flow
+      - Manages extension registration
+      - Coordinates extension operations
+      - Maintains pipeline state
+      Methods:
+      - register_extension()
+      - initialize()
+      - execute()
+      - cleanup()
+
+Execution Flows:
+1. Pipeline Initialization:
+   - Load YAML Config
+   - Create Pipeline Context
+   - Initialize ExtensionLoader
+   - Discover Available Extensions
+   - Load Required Extensions
+   - Register Extensions with Orchestrator
+
+2. Extension Loading Process:
+   - Parse YAML Config
+   - Load Each Extension Module
+   - Validate Extensions
+   - Register with Orchestrator
+
+3. Extension Execution:
+   - Initialize Each Extension
+   - Setup Container Environment
+   - Validate Configuration
+   - Execute Extension Logic
+   - Handle Results
+
+Implementation Guidelines:
+1. Extension Loading:
+   - Use ExtensionLoader for dynamic loading
+   - Validate before registration
+   - Handle dependencies properly
+
+2. Extension Registration:
+   - Register before initialization
+   - Validate compatibility
+   - Establish execution order
+
+3. Extension Initialization:
+   - Setup resources after registration
+   - Prepare container environment
+   - Validate configurations
+
+4. Extension Execution:
+   - Follow pipeline order
+   - Handle cross-extension dependencies
+   - Manage state properly
+   - Implement error handling
+
+State Management:
+1. Pipeline State:
+   - Track overall progress
+   - Maintain extension status
+   - Handle cross-extension data
+
+2. Extension State:
+   - Manage extension data
+   - Track container state
+   - Handle execution results
+
+Error Handling Strategy:
+1. Pipeline Level:
+   - Manage pipeline failures
+   - Coordinate recovery
+   - Handle cleanup
+
+2. Extension Level:
+   - Handle specific errors
+   - Implement retries
+   - Manage resources
+
+File Structure:
+src/
+├── core/           # Core pipeline components
+│   ├── loader.py
+│   ├── orchestrator.py
+│   └── state.py
+├── handlers/       # Extension interfaces
+│   └── extension.py
+└── models/         # Data models
+    ├── config.py
+    └── state.py
+
+Extensions Folder Pattern:
+extensions/
+└── extension_name/
+    ├── README.md           # Documentation
+    ├── pyproject.toml      # Dependencies
+    └── src/
+        ├── extension.py    # Main logic
+        ├── models.py       # Data models
+        └── config.py       # Configuration
+
+Best Practices:
+1. Extension Development:
+   - Maintain independence
+   - Follow container practices
+   - Implement validation
+   - Handle cleanup
+   - Standard format for extensions
+   - Individual version management
+   - Dependency resolution
+
+2. Pipeline Configuration:
+   - Use clear naming
+   - Document dependencies
+   - Separate concerns
+   - Follow least privilege
+
+3. Error Handling:
+   - Implement retries
+   - Log effectively
+   - Clean up resources
+   - Maintain state
