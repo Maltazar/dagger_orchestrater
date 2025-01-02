@@ -1,0 +1,57 @@
+#!/bin/bash
+# Determine the package manager
+if command -v apt-get &> /dev/null; then
+  PACKAGE_MANAGER="apt-get"
+elif command -v yum &> /dev/null; then
+  PACKAGE_MANAGER="yum"
+else
+  echo "Unsupported package manager. Please install bash-completion manually."
+  exit 1
+fi
+
+# Download and install the Dagger CLI binary
+if test ! $(which dagger); then
+  curl -fsSL https://dl.dagger.io/dagger/install.sh | BIN_DIR=$HOME/.local/bin sh
+else
+  echo "Dagger CLI is already installed."
+fi
+
+# Add $HOME/.local/bin to PATH for both zsh and bash
+if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+  echo 'export PATH=$HOME/.local/bin:$PATH' >> $HOME/.bashrc
+  if test $(which zfs); then
+    echo 'export PATH=$HOME/.local/bin:$PATH' >> $HOME/.zshrc
+  fi
+  export PATH=$HOME/.local/bin:$PATH
+fi
+
+# Ensure bash-completion is installed
+if ! dpkg -s bash-completion &> /dev/null && ! rpm -q bash-completion &> /dev/null; then
+  echo "Please install bash-completion using your package manager."
+  sudo $PACKAGE_MANAGER install bash-completion -y
+fi
+
+if test ! /home/ms/.local/share/bash-completion/completions/dagger; then
+  # Add dagger completion to personal bash completions dir
+  mkdir -p /home/ms/.local/share/bash-completion/completions
+  dagger completion bash > /home/ms/.local/share/bash-completion/completions/dagger
+fi
+
+if test $(which zfs); then
+  # Generate a _dagger completion script for zsh
+  if test ! -d /home/ms/.local/share/zsh/site-functions/_dagger; then
+    mkdir -p /home/ms/.local/share/zsh/site-functions
+    dagger completion zsh > /home/ms/.local/share/zsh/site-functions/_dagger
+  fi
+
+  # Ensure compinit is present in ~/.zshrc
+  if ! grep -q "autoload -U compinit" $HOME/.zshrc; then
+    echo 'autoload -U compinit' >> $HOME/.zshrc
+    echo 'compinit -i' >> $HOME/.zshrc
+  fi
+fi
+
+# Verify the installation
+dagger version
+
+echo "Setup complete. Please restart your shell or source your profile files."
