@@ -1,0 +1,9 @@
+@dagger
+Hi, im trying to make a new dagger io pipeline
+I wish to use python as the sdk for it
+I wish to use pydantic models, my initial idea is shown in my python files, they are just schetches for now
+The main part is my yaml file - dagger_example.yaml - this contains how I wish to organize the pipeline, with different modules, that orchestrate the different pipeline parts - the order of the modules is how to run them.
+I have added the docs for dagger io.
+Can you help me create this - I think we need some kind of initial starter section, that we then can hook each of the different modules that are activated in the yaml file into - then each module should be selfsuficient.
+we could start with the initial start section, that the other modules can hook into - and then afterward continue with the terraform module?
+does that make sense?

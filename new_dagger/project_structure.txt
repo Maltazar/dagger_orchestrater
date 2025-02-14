@@ -1,0 +1,60 @@
+pipeline/
+├── src/
+│   ├── terraform_module/  # This can be a separate pip package
+│   │   ├── __init__.py
+│   │   ├── pyproject.toml
+│   │   └── src/
+│   │       └── model/
+│   │       |   ├── __init__.py
+│   │       |   └── terraform.py
+│   │       └── module/
+│   │           ├── __init__.py
+│   │           ├── terraform.py
+│   ├── ansible_module/  # This can be a separate pip package
+│   │   ├── __init__.py
+│   │   ├── pyproject.toml
+│   │   └── src/
+│   │       └── model/
+│   │       |   ├── __init__.py
+│   │       |   └── ansible.py
+│   │       └── module/
+│   │           ├── __init__.py
+│   │           ├── ansible.py
+│   ├── helm_module/  # This can be a separate pip package
+│   │   ├── __init__.py
+│   │   ├── pyproject.toml
+│   │   └── src/
+│   │       └── model/
+│   │       |   ├── __init__.py
+│   │       |   └── helm.py
+│   │       └── module/
+│   │           ├── __init__.py
+│   │           ├── helm.py
+│   ├── kubectl_module/  # This can be a separate pip package
+│   │   ├── __init__.py
+│   │   ├── pyproject.toml
+│   │   └── src/
+│   │       └── model/
+│   │       |   ├── __init__.py
+│   │       |   └── kubectl.py
+│   │       └── module/
+│   │           ├── __init__.py
+│   │           ├── kubectl.py
+│   ├── secret_module/  # This can be a separate pip package
+│   │   ├── __init__.py
+│   │   ├── pyproject.toml
+│   │   └── src/
+│   │       └── model/
+│   │       |   ├── __init__.py
+│   │       |   └── secret.py
+│   │       └── module/
+│   │           ├── __init__.py
+│   │           └── secret.py
+│   └── pipeline/  # Main pipeline package
+│       ├── __init__.py
+│       ├── modules/
+│       │   ├── __init__.py
+│       │   ├── base.py
+│       ├── handlers/
+│       │   ├── __init__.py
+│       └── main.py

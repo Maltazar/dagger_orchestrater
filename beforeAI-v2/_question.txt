@@ -1,0 +1,9 @@
+Hi, im trying to make a new dagger io pipeline - use the dagger docs, that I have added
+I wish to use python as the sdk
+I wish to use pydantic models
+The pipelines stcutre is located in the file README.md, including explanation of the different parts
+the yaml file dagger_example.yaml is the main configuration for the pipeline, it contains the different extensions that are activated in the pipeline
+Can you help me create this app.
+We need to start with the core part of the pipeline first.
+Start with the initial skeleton.
+This should include, the initital dagger io context manager, the modular loading of different extensions, some logging and status.

@@ -1,0 +1,8 @@
+{
+    "python.testing.pytestArgs": [
+        "pipeline/tests"
+    ],
+    "python.defaultInterpreterPath": "./pipeline/.venv/bin/python",
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}

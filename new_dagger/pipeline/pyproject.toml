@@ -1,0 +1,21 @@
+[project]
+name = "dagger-pipeline"
+version = "0.1.0"
+description = "Modular Dagger Pipeline Framework"
+dependencies = [
+    "pydantic>=2.0.0",
+    "dagger-io>=0.15.1",
+    "pyyaml>=6.0.1",
+    "dagger-terraform-module @ file://src/terraform_module",
+    "dagger-ansible-module @ file://src/ansible_module",
+    "dagger-helm-module @ file://src/helm_module",
+    "dagger-kubectl-module @ file://src/kubectl_module",
+    "dagger-secret-module @ file://src/secret_module"
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+packages = ["src/pipeline"]

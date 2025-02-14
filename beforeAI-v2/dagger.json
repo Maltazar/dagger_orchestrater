@@ -2,5 +2,5 @@
   "name": "dagger_orchestrater",
   "engineVersion": "v0.15.1",
   "sdk": "python",
-  "source": "dagger"
+  "source": "."
 }
